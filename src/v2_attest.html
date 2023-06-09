@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Веселова Ксения Олеговна ПИ-С-19</title>
+  <link rel="stylesheet" href="css/v2_css_style.css" />
+</head>
+<body>
+    <nav>
+        <div class="row">
+            <div class="col-2"><a href="v2_index.html"><img src="img/logo.png" class="logo"/></a></div>
+            <div class="col-2"><span class="headS">Обучаемся CSS</span></div>
+        </div>    
+        <div class="row">
+            <div class="col-3"><a href="v2_index.html" class="navA">| О себе</a></div>
+            <div class="col-3"><a href="v2_resume.html" class="navA">| Резюме</a></div>
+            <div class="col-3"><a href="v2_attest.html" class="navA">| Запись на аттестацию</a></div>
+        </div>
+    </nav>
+    <article>
+        <h2>Запись на аттестацию</h2>
+        <hr>
+        <span class="nad">Фамилия:</span><br>
+        <input type="text" id="fname" placeholder="Введите фамилию"><br>
+        <span class="nad">Имя:</span><br>
+        <input type="text" id="lname" placeholder="Введите имя"><br>
+        <br><br>
+        <span class="nad">Логин:</span><br>
+        <input type="text" id="login" placeholder="Введите логин"><br>
+        <span class="nad">Пароль:</span><br>
+        <input type="password" id="pass" placeholder="Введите пароль"><br>
+        <br><br>
+        <span class="nad">Выберите время:</span><br>
+        <p><input name="timeR" type="radio" value="9:00-10:00">9:00-10:00</p>
+        <p><input name="timeR" type="radio" value="11:00-12:00">11:00-12:00</p>
+        <p><input name="timeR" type="radio" value="14:00-15:00">14:00-15:00</p>
+        <p><input name="timeR" type="radio" value="16:00-17:00">16:00-17:00</p>
+        <br>  
+        <span class="nad">Выберите форму контроля:</span><br>
+        <p><input type="checkbox" name="fcontrol" value="Онлайн экзамен" />Онлайн экзамен</p>
+        <p><input type="checkbox" name="fcontrol" value="Доклад" />Доклад</p>
+        <p><input type="checkbox" name="fcontrol" value="Реферат" />Реферат</p>
+        <p><input type="checkbox" name="fcontrol" value="Экзамен" />Экзамен</p>
+        <br>
+        <span class="nad">Выберите предмет:</span><br>
+        <select id="subject" name="subject">
+            <option value="Русский" selected>Русский</option>
+            <option value="Информатика">Информатика</option>
+            <option value="История">История</option>
+            <option value="ИЗО">ИЗО</option>
+        </select>
+        <br><br>
+        <span class="nad">Проверить данные - </span><input type="button" value="Проверить" onclick="insertData()" />
+        <br><br>
+        <span class="nad">Дополнительная информация:</span><br>
+        <textarea name="infoT" id="infoT" rows="8" cols="30"></textarea><br>
+        <span class="nad">Показать список:</span><br>
+        <input type="button" value="Показать" onclick="selectTable()" />
+        <hr>
+    </article>
+    <footer>
+        <div class="row">
+            <div class="col-2">Cайт разработан Веселовой Ксенией, Copyright © 2023</div>   
+            <div class="col-2">                
+                <img src="img/vk.png" />
+                <img src="img/ok.png" />
+                <img src="img/tele.png" />
+            </div>                 
+            </div>
+        </div>
+    </footer>
+
+<script src="jquery.js"></script> 
+<script src="jquery.js"></script> 
+<script>
+function selectTable()
+{
+    q = "SELECT att.id, users.login, att.text, att.comment FROM att JOIN users ON att.user_id = users.id";
+    $.post( "server.php", { type: "select", query: q }, function( data ) 
+    {
+        let obj = jQuery.parseJSON(data);
+        let str = "";
+        for (let i = 0; i < Object.keys(obj).length; i++) 
+        {
+            str += `${i+1}) ` + "ID = "+obj[i].id+"|Логин = "+obj[i].login+"|Текст = "+obj[i].text+"|Комментарий = "+obj[i].comment+"\n";   
+        }
+        confirm(str);
+    })
+}
+//------------
+function insertData() 
+{
+    let lg = $("#login").val();
+    let ps = $("#pass").val();
+    $.post( "server.php", { type: "inbase", login: lg, pass: ps }, function( data ) 
+    {
+        let obj = jQuery.parseJSON(data);
+        if (obj != false) 
+        {
+            //--------------------
+            let cmt = "";
+            let str = "Уважаемый " + $("#lname").val() + "\n";
+            str += " Ждем вас на экзамен по " + $("#subject").val() + " в " + $("#timeR").val() + "\n";
+            str += " Экзамен пройдет в форме " + $("#fcontrol").val()+"\n";
+            if ($("#infoT").val().length > 0) 
+            {
+                str += " спасибо за комментарий:  " + $("#infoT").val();
+                cmt = $("#infoT").val();
+            }    
+            if (confirm(str)) 
+            {
+                $.post( "server.php", { type: "insert", login: lg, text: str, cmt: cmt }, function( data ) 
+                {
+                    if (data = "true") alert('Запись добавлена!')
+                        else alert('Ошибка записи!');
+                })    
+            }
+            //--------------------
+        }
+        else alert('Введите корректный Логин и Пароль!')
+    })    
+}    
+</script>
+</body>
+</html>

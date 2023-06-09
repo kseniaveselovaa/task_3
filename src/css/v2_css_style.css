@@ -1,0 +1,90 @@
+html 
+{
+    background: url('../img/fon.png') repeat;
+}
+body
+{
+    max-width:800px;
+    margin: 0 auto;
+    background-color:#fff8ff;
+    padding:10px;
+}
+footer img
+{
+    width:64px;
+    padding:5px;
+}
+.logo 
+{
+    height:200px;
+}
+table, table th
+{
+   background-color:crimson; 
+   text-align: center;
+   color:white;
+}
+
+table td
+{
+   background-color:rgb(244, 174, 237); 
+}
+* {
+    box-sizing: border-box;
+  }
+  .col-1 {
+    height: 100px;
+    width: 100%;
+    margin: .5rem;
+  } 
+  .col-2 {
+    width: 50%;
+    margin: .5rem;
+    text-align: center;
+    align-items: center;
+  } 
+
+  .col-2b {
+    width: 50%;
+    margin: .5rem;
+  }
+  .col-3 {
+    height: 20px;
+    width: 33.333%;
+    margin: .5rem;
+    text-align: center;
+    vertical-align:middle;
+  }
+  .col-3:hover
+  {
+    cursor: pointer;
+    background-color:fuchsia;
+  }
+
+  .navA{
+    text-decoration: none;
+    color:black;
+    font-size:14px;
+    text-transform: uppercase;
+  }
+  
+  .row {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      align-content: center;
+      justify-content: space-between;
+  }
+
+  .headS 
+  {
+    font-size:25px;
+    font-weight: bold;
+  }
+  .nad
+  {
+    padding:5px 0px 10px 0px;
+    font-size: 18px;
+    font-weight: bold;
+    font-style: italic;
+  }
